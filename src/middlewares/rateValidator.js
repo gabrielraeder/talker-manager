@@ -1,7 +1,7 @@
 const rateValidator = (req, res, next) => {
   const { talk: { rate } } = req.body;
   const between = rate >= 1 && rate <= 5;
-  if (!rate) {
+  if (rate === undefined) {
     return res.status(400).json({ message: 'O campo "rate" é obrigatório' });
   }
   if (Number.isInteger(rate) && between) {

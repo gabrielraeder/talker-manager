@@ -39,4 +39,17 @@ router.post('/',
   return res.status(201).json(added);
 });
 
+router.put('/:id',
+tokenValidator,
+nameValidator,
+ageValidator,
+talkValidator, 
+watchedAtValidator,
+rateValidator, async (req, res) => {
+  const { id } = req.params;
+  const data = req.body;
+  const updated = await fs.updateJSON(+id, data);
+  return res.status(200).json(updated);
+});
+
 module.exports = router;

@@ -26,7 +26,7 @@ const updateJSON = async (id, data) => {
     return [...acc, curr];
   }, []);
   await writeJSON(newData);
-  return newData;
+  return updated;
 };
 
 const addDataJSON = async (data) => {
