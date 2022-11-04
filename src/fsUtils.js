@@ -1,7 +1,7 @@
 const fs = require('fs').promises;
 const { join } = require('path');
 
-const path = '/files/$.json'; // atualizar
+const path = '/talker.json'; // atualizar
 
 const readJSON = async () => {
   const data = await fs.readFile(join(__dirname, path), 'utf-8');
