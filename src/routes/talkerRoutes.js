@@ -10,18 +10,26 @@ const watchedAtValidator = require('../middlewares/watchedAtValidator');
 const router = express.Router();
 
 router.get('/search', tokenValidator, async (req, res) => {
-  const { q } = req.query;
-  const talkers = await fs.readJSON();
-  if (!q) {
-    return res.status(200).json(talkers);
+  try {
+    const { q } = req.query;
+    const talkers = await fs.readJSON();
+    if (!q) {
+      return res.status(200).json(talkers);
+    }
+    const filtered = talkers.filter((t) => t.name.includes(q));
+    return res.status(200).json(filtered);
+  } catch (err) {
+    res.status(500).send({ message: err.message });
   }
-  const filtered = talkers.filter((t) => t.name.includes(q));
-  return res.status(200).json(filtered);
 });
 
 router.get('/', async (req, res) => {
-  const data = await fs.readJSON();
-  return res.status(200).json(data);
+  try {
+    const data = await fs.readJSON();
+    return res.status(200).json(data);
+  } catch (err) {
+    res.status(500).send({ message: err.message });
+  }
 });
 
 router.get('/:id', async (req, res) => {
@@ -44,9 +52,13 @@ router.post('/',
   talkValidator, 
   watchedAtValidator,
   rateValidator, async (req, res) => {
-  const data = req.body;
-  const added = await fs.addDataJSON(data);
-  return res.status(201).json(added);
+  try {
+    const data = req.body;
+    const added = await fs.addDataJSON(data);
+    return res.status(201).json(added);
+  } catch (err) {
+    res.status(500).send({ message: err.message });
+  }
 });
 
 router.put('/:id',
@@ -56,16 +68,24 @@ ageValidator,
 talkValidator, 
 watchedAtValidator,
 rateValidator, async (req, res) => {
-  const { id } = req.params;
-  const data = req.body;
-  const updated = await fs.updateJSON(+id, data);
-  return res.status(200).json(updated);
+  try {
+    const { id } = req.params;
+    const data = req.body;
+    const updated = await fs.updateJSON(+id, data);
+    return res.status(200).json(updated);
+  } catch (err) {
+    res.status(500).send({ message: err.message });
+  }
 });
 
 router.delete('/:id', tokenValidator, async (req, res) => {
-  const { id } = req.params;
-  await fs.deleteByID(+id);
-  return res.status(204).json();
+  try {
+    const { id } = req.params;
+    await fs.deleteByID(+id);
+    return res.status(204).json();
+  } catch (err) {
+    res.status(500).send({ message: err.message });
+  }
 });
 
 module.exports = router;
