@@ -35,7 +35,7 @@ const addDataJSON = async (data) => {
   const newObj = { id: newID, ...data };
   const newData = [...oldData, newObj];
   await writeJSON(newData);
-  return newData;
+  return newObj;
 };
 
 const deleteByID = async (id) => {
