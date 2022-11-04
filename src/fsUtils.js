@@ -45,6 +45,10 @@ const deleteByID = async (id) => {
   return filtered;
 };
 
+const writeToken = async (token) => {
+  await fs.writeFile(join(__dirname, '/token.json'), JSON.stringify(token));
+};
+
 module.exports = {
   readJSON,
   readByID,
@@ -52,4 +56,5 @@ module.exports = {
   updateJSON,
   addDataJSON,
   deleteByID,
+  writeToken,
 };
