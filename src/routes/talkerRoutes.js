@@ -9,6 +9,16 @@ const watchedAtValidator = require('../middlewares/watchedAtValidator');
 
 const router = express.Router();
 
+router.get('/search', tokenValidator, async (req, res) => {
+  const { q } = req.query;
+  const talkers = await fs.readJSON();
+  if (!q) {
+    return res.status(200).json(talkers);
+  }
+  const filtered = talkers.filter((t) => t.name.includes(q));
+  return res.status(200).json(filtered);
+});
+
 router.get('/', async (req, res) => {
   const data = await fs.readJSON();
   return res.status(200).json(data);
