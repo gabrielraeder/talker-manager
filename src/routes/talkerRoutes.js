@@ -52,4 +52,10 @@ rateValidator, async (req, res) => {
   return res.status(200).json(updated);
 });
 
+router.delete('/:id', tokenValidator, async (req, res) => {
+  const { id } = req.params;
+  await fs.deleteByID(+id);
+  return res.status(204).json();
+});
+
 module.exports = router;
